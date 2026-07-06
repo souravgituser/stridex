@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Shopping Cart | StrideX</title>
+  <meta name="description"
+    content="Review the items in your StrideX shopping cart, adjust sizing quantities, apply promotional discounts, and complete secure checkout.">
+  <link rel="icon" type="image/png" href="../images/shoes/apex_runner_blue.png">
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/pages/landing.css">
+  <link rel="stylesheet" href="../css/pages/cart.css">
+</head>
+
+<body>
+
+  <!-- Dynamic Header Injection Placeholder -->
+  <div id="global-header"></div>
+
+  <!-- Page Main Content -->
+  <main id="main-content" style="margin-top: 80px; min-height: 80vh; padding-bottom: var(--space-12);">
+    <div class="container">
+
+      <!-- Breadcrumb Navigation -->
+      <nav
+        style="padding: var(--space-6) 0 var(--space-2); display: flex; gap: var(--space-2); align-items: center; font-size: 0.9rem; color: var(--text-secondary);"
+        aria-label="Breadcrumb">
+        <a href="../index.html">Home</a> / <span style="color: var(--text-primary); font-weight: 600;">Shopping
+          Cart</span>
+      </nav>
+
+      <!-- Cart Dynamic Container -->
+      <div class="cart-layout" id="cart-page-content" aria-live="polite">
+        <!-- Rendered Dynamically by cart.js (Cart items table, Saved for Later grids, summaries side panel) -->
+      </div>
+
+      <!-- Recommended/Upsell Section -->
+      <section
+        style="margin-top: var(--space-16); border-top: 2px solid var(--border-color); padding-top: var(--space-10);"
+        aria-labelledby="recommend-heading">
+        <h2 id="recommend-heading"
+          style="font-family: var(--font-display); font-size: 1.5rem; text-transform: uppercase; margin-bottom: var(--space-6);">
+          Recommended For You</h2>
+        <div class="product-grid" id="upsell-items-container">
+          <!-- Injected dynamically by cart.js -->
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Dynamic Footer Injection Placeholder -->
+  <div id="global-footer"></div>
+
+  <!-- Core Scripts -->
+  <script src="../js/data.js?v=1.1"></script>
+  <script src="../js/state.js?v=1.1"></script>
+  <script src="../js/components/Header.js?v=1.1"></script>
+  <script src="../js/components/Footer.js?v=1.1"></script>
+  <script src="../js/app.js?v=1.1"></script>
+
+  <!-- Page Specific Logic Script -->
+  <script src="../js/pages/cart.js?v=1.1"></script>
+</body>
+
+</html>

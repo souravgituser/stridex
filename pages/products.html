@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shop Footwear Collection | StrideX</title>
+  <meta name="description"
+    content="Explore StrideX's full range of premium running, gym training, basketball, and lifestyle shoes. Filter by size, color, category, or price to find your perfect fit.">
+  <link rel="icon" type="image/png" href="../images/shoes/apex_runner_blue.png">
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/pages/landing.css">
+  <link rel="stylesheet" href="../css/pages/products.css">
+</head>
+
+<body>
+
+  <!-- Dynamic Header Injection Placeholder -->
+  <div id="global-header"></div>
+
+  <!-- Page Main Content -->
+  <main id="main-content" style="margin-top: 80px; min-height: 80vh;">
+    <div class="container">
+
+      <!-- Breadcrumb Navigation -->
+      <nav
+        style="padding: var(--space-6) 0 var(--space-2); display: flex; gap: var(--space-2); align-items: center; font-size: 0.9rem; color: var(--text-secondary);"
+        aria-label="Breadcrumb">
+        <a href="../index.html">Home</a> / <span style="color: var(--text-primary); font-weight: 600;">Shop All</span>
+      </nav>
+
+      <!-- Catalog Page Layout Grid -->
+      <div class="catalog-layout">
+
+        <!-- Left Sidebar: Filters Panel -->
+        <aside class="filter-sidebar" id="filter-sidebar" aria-label="Product Filters">
+          <div class="filter-sidebar-header">
+            <h2 style="font-family: var(--font-display); font-size: 1.2rem; text-transform: uppercase; font-weight: 800; margin: 0;">Filters</h2>
+            <button class="action-btn" id="filter-clear-all" style="font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: var(--primary); background: none; border: none; cursor: pointer;">Clear All</button>
+          </div>
+
+          <!-- 1. Search Bar -->
+          <div class="filter-group">
+            <h3 class="filter-group-title">Search</h3>
+            <div style="position: relative;">
+              <input type="text" class="form-control" id="catalog-search-input" placeholder="Search shoe name..." style="padding-right: var(--space-8); font-size: 0.875rem;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: var(--text-muted);" aria-hidden="true">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+            </div>
+          </div>
+
+          <!-- 2. Price Range Slider -->
+          <div class="filter-group">
+            <h3 class="filter-group-title">Price Range</h3>
+            <input type="range" class="price-slider" id="price-range-slider" min="100" max="300" value="300" aria-label="Max price range limit" style="width: 100%; accent-color: var(--primary); cursor: pointer;">
+            <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-secondary); margin-top: var(--space-1);">
+              <span>Min: $100</span>
+              <span id="price-slider-max-val" style="font-weight: 700; color: var(--primary);">Max: $300</span>
+            </div>
+          </div>
+
+          <!-- 3. Category -->
+          <div class="filter-group">
+            <h3 class="filter-group-title">Category</h3>
+            <div class="filter-checkbox-list" id="filter-categories-list"></div>
+          </div>
+
+          <!-- 4. Sizes -->
+          <div class="filter-group">
+            <h3 class="filter-group-title">Size</h3>
+            <div class="filter-sizes-grid" id="filter-sizes-list"></div>
+          </div>
+
+          <!-- 5. Color Swatches -->
+          <div class="filter-group">
+            <h3 class="filter-group-title">Color</h3>
+            <div class="filter-colors-row" id="filter-colors-list"></div>
+          </div>
+
+          <!-- 6. Gender -->
+          <div class="filter-group">
+            <h3 class="filter-group-title">Gender</h3>
+            <div class="filter-checkbox-list" id="filter-genders-list"></div>
+          </div>
+
+          <!-- 7. Rating -->
+          <div class="filter-group">
+            <h3 class="filter-group-title">Minimum Rating</h3>
+            <div class="filter-checkbox-list" id="filter-ratings-list"></div>
+          </div>
+
+          <!-- 8. Brand -->
+          <div class="filter-group">
+            <h3 class="filter-group-title">Brand</h3>
+            <div class="filter-checkbox-list" id="filter-brands-list"></div>
+          </div>
+
+          <!-- 9. Material -->
+          <div class="filter-group">
+            <h3 class="filter-group-title">Material</h3>
+            <div class="filter-checkbox-list" id="filter-materials-list"></div>
+          </div>
+
+          <!-- 10. Technology -->
+          <div class="filter-group">
+            <h3 class="filter-group-title">Technology</h3>
+            <div class="filter-checkbox-list" id="filter-technologies-list"></div>
+          </div>
+
+          <!-- 11. Availability -->
+          <div class="filter-group">
+            <h3 class="filter-group-title">Availability</h3>
+            <div class="filter-checkbox-list" id="filter-availabilities-list"></div>
+          </div>
+        </aside>
+
+        <!-- Right Content Area: Products catalog, sorting & grids -->
+        <section aria-labelledby="catalog-title">
+          <h1 id="catalog-title" class="sr-only">StrideX Shoe Catalog</h1>
+
+          <!-- Catalog Toolbar (Active count & Sorting dropdown) -->
+          <div class="catalog-toolbar">
+            <div class="catalog-count-label" id="catalog-products-count">Showing 12 items</div>
+
+            <div style="display: flex; gap: var(--space-2); align-items: center;">
+              <!-- Mobile Filter Trigger -->
+              <button class="btn btn-outline btn-sm btn-ripple" id="mobile-filter-trigger"
+                style="display: none; padding: 0.5rem 1rem; align-items: center; gap: 4px;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+                </svg>
+                Filters
+              </button>
+
+              <div style="display: flex; gap: var(--space-2); align-items: center;">
+                <label for="catalog-sort-select"
+                  style="font-size: 0.85rem; font-weight: 700; color: var(--text-secondary); text-transform: uppercase;">Sort
+                  By</label>
+                <select class="form-control" id="catalog-sort-select"
+                  style="padding: 0.45rem 1.75rem 0.45rem 0.75rem; font-size: 0.85rem; width: 160px; cursor: pointer;">
+                  <option value="popular">Popularity</option>
+                  <option value="newest">Newest Drops</option>
+                  <option value="price-low">Price: Low to High</option>
+                  <option value="price-high">Price: High to Low</option>
+                  <option value="rating">Highest Rated</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Main Grid of Products cards -->
+          <div class="product-grid" id="catalog-products-grid" aria-live="polite">
+            <!-- Dynamically rendered cards by products.js -->
+          </div>
+
+          <!-- Pagination container -->
+          <div class="pagination-container" id="catalog-pagination">
+            <!-- Dynamically injected -->
+          </div>
+
+        </section>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- 7. Dynamic Quick View Glassmorphic Modal Dialog -->
+  <div class="quick-view-overlay" id="quick-view-overlay" aria-hidden="true" role="dialog">
+    <div class="quick-view-modal">
+      <button class="quick-view-close" id="quick-view-close-btn" aria-label="Close details dialog">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+
+      <div class="quick-view-grid" id="quick-view-modal-content">
+        <!-- Dynamically injected layout elements -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Dynamic Footer Injection Placeholder -->
+  <div id="global-footer"></div>
+
+  <!-- Core Scripts -->
+  <script src="../js/data.js?v=1.1"></script>
+  <script src="../js/state.js?v=1.1"></script>
+  <script src="../js/components/Header.js?v=1.1"></script>
+  <script src="../js/components/Footer.js?v=1.1"></script>
+  <script src="../js/app.js?v=1.1"></script>
+
+  <!-- Page Specific Logic Script -->
+  <script src="../js/pages/products.js?v=1.1"></script>
+</body>
+
+</html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StrideX Product Detail | Speed & Propulsion</title>
+  <meta name="description"
+    content="Explore detailed specifications, high-resolution photo galleries, materials composition, cushioning tech, and reviews of StrideX athletic shoes.">
+  <link rel="icon" type="image/png" href="../images/shoes/apex_runner_blue.png">
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/pages/landing.css">
+  <link rel="stylesheet" href="../css/pages/detail.css">
+</head>
+
+<body>
+
+  <!-- Dynamic Header Injection Placeholder -->
+  <div id="global-header"></div>
+
+  <!-- Page Main Content -->
+  <main id="main-content" style="margin-top: 80px; min-height: 80vh; padding-bottom: var(--space-20);">
+    <div class="container">
+      <!-- Breadcrumb Navigation -->
+      <nav style=" padding: var(--space-6) 0 var(--space-2); display: flex; gap: var(--space-2); align-items: center;
+      font-size: 0.9rem; color: var(--text-secondary);" aria-label="Breadcrumb">
+        <a href="../index.html">Home</a> / <a href="products.html">Shop</a> / <span id="breadcrumb-product-name"
+          style="color: var(--text-primary); font-weight: 600;">Product Detail</span>
+      </nav>
+
+      <!-- Main Layout Details Split Grid -->
+      <div class="detail-grid-layout" id="detail-page-container">
+        <!-- Rendered dynamically by detail.js (Gallery viewports, configuration forms, buy-panels) -->
+      </div>
+
+      <!-- Frequently Bought Together Bundle Card -->
+      <section
+        style="margin-top: var(--space-16); border-top: 2px solid var(--border-color); padding-top: var(--space-10);"
+        aria-labelledby="bundle-heading">
+        <h2 id="bundle-heading"
+          style="font-family: var(--font-display); font-size: 1.5rem; text-transform: uppercase; margin-bottom: var(--space-6);">
+          Frequently Bought Together</h2>
+        <div id="detail-bundle-container">
+          <!-- Injected dynamically by detail.js -->
+        </div>
+      </section>
+
+      <!-- Specifications Accordions and Reviews split section -->
+      <section class="detail-split-section"
+        style="margin-top: var(--space-16); border-top: 2px solid var(--border-color); p        op: var(--space-10);"
+        aria-label="Specifications and reviews">
+
+        <!-- Left: specifications accordions -->
+        <div>
+          <h2
+            style="font-family: var(--font-display); font-size: 1.5r          ransform: uppercase; margin-bottom: var(--space-6);">
+            Specifications</h2>
+
+          <div class="accordion-group">
+            <details class="accordion" open>
+              <summary class="accordion-title">Tech Specifications</summary>
+              <div class="accordion-content">
+                <table class="spec-table" id="detail-specs-table">
+                  <!-- Dynamical             -->
+                </table>
+              </div>
+            </details>
+
+            <details class="accordion">
+              <summary class="accordion-title">Materials & Care</summary>
+              <div class="accordion-content">
+                <p style="line-height: 1.6; font-size: 0.95rem; color: var(--text-secondary);">
+                  Dressed in premium double-knit engineered polyester overlays. Wipe outer rubber surfaces clean using a
+                  microfiber damp cloth. Avoid submerging shoes directly in water or running them through automatic
+                  washing machine wash cycles.
+                </p>
+              </div>
+            </details>
+
+            <details class="accordion">
+              <summary class="accordion-title">Shipping & Returns</summary>
+              <div class="accordion-content">
+                <p style="line-height: 1.6; font-size: 0.95rem; color: var(--text-secondary);">
+                  Free standard shipping applies on all order cart values exceeding $150. Returns are accepted within 30
+                  days of purchase in brand new, unworn conditions with original tags intact.
+                </p>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <!-- Right: Reviews Feed -->
+        <div>
+          <h2
+            style="font-f          (--font-display); font-size: 1.5rem; text-transform: uppercase; margin-bottom: var(--space-6);">
+            Customer Reviews</h2>
+
+          <!-- Rating Stats Distributions -->
+          <div class="reviews-header" id="detail-reviews-summary-block">
+            <!-- Dynamically populated -->
+          </div>
+
+          <!-- Add Review Form -->
+          <div class="write-review-box">
+            <h3
+              style="font-size: 1rem; font-weight: 700; margin-bottom: var(--space-4); text-transform: uppercase; letter-spacing: 0.05em;">
+              Write a Review</h3>
+            <form id="detail-add-review-form" novalidate>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="review-author">Your Name</label>
+                  <input type="text" class="form-control" id="review-author" placeholder="E.g. Sarah J." required
+                    style="font-size: 0.85rem;">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="review-rating-select">Rating</label>
+                  <select class="form-control" id="review-rating-select" required style="font-size: 0.85rem;">
+                    <option value="5">5 Stars (Excellent)</option>
+                    <option value="4">4 Stars (Good)</option>
+                    <option value="3">3 Stars (Average)</option>
+                    <option value="2">2 Stars (Poor)</option>
+                    <option value="1">1 Star (Unacceptable)</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group" style="margin-top: var(--space-3);">
+                <label class="form-label" for="review-text">Review Content</label>
+                <textarea class="form-control" id="review-text" rows="3" placeholder="Tell us about the cushioning, propulsion plate, fit sizing..." required style="font-size: 0.85rem; resize: vertical;"></textarea>
+              </div>
+              <button type="submit" class="btn btn-dark btn-sm" style="margin-top: var(--space-4); width: 100%;">Submit Review</button>
+            </form>
+          </div>
+
+          <!-- Feed lists reviews -->
+          <div class="reviews-list" id="detail-reviews-feed">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+
+      </section>
+
+      <!-- Related Products grid row -->
+      <section
+        style="margin-top: var(--space-16); border-top: 2px solid var(--border-color); padding-top: var(--space-10);"
+        aria-labelledby="related-heading">
+        <h2 id="related-heading"
+          style="font-family: var(--font-display); font-size: 1.5rem; text-transform: uppercase; margin-bottom: var(--space-6);">
+          Related Products</h2>
+        <div class="product-grid" id="detail-related-products-grid">
+          <!-- Injected dynamically by detail.js -->
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Dynamic Bottom Sticky Buy Bar Panel -->
+  <div class="sticky-buy-bar" id="detail-sticky-buy-bar">
+    <!-- Injected dynamically by detail.js -->
+  </div>
+
+  <!-- Dynamic Footer Injection Placeholder -->
+  <div id="global-footer"></div>
+
+  <!-- Core Scripts -->
+  <script src="../js/data.js?v=1.2"></script>
+  <script src="../js/state.js?v=1.2"></script>
+  <script src="../js/components/Header.js?v=1.2"></script>
+  <script src="../js/components/Footer.js?v=1.2"></script>
+  <script src="../js/app.js?v=1.2"></script>
+
+  <!-- Page Specific Logic Script -->
+  <script src="../js/pages/detail.js?v=1.2"></script>
+</body>
+
+</html>

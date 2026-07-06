@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shipping & Delivery | StrideX</title>
+  <meta name="description" content="Shipping options, delivery times, and order tracking policies at StrideX.">
+  <link rel="icon" type="image/png" href="../images/shoes/apex_runner_blue.png">
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/pages/landing.css">
+  <link rel="stylesheet" href="../css/pages/detail.css">
+  <style>
+    .shipping-layout {
+      max-width: 800px;
+      margin: 120px auto var(--space-16);
+      padding: 0 var(--space-6);
+    }
+    .shipping-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3rem);
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: var(--space-8);
+    }
+    .shipping-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: var(--space-8) 0;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+    .shipping-table th, .shipping-table td {
+      padding: var(--space-4) var(--space-6);
+      text-align: left;
+    }
+    .shipping-table th {
+      background-color: var(--text-primary);
+      color: var(--text-light);
+      font-family: var(--font-display);
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+    }
+    .shipping-table tr {
+      border-bottom: 1px solid var(--border-color);
+      background-color: var(--bg-card);
+    }
+    .shipping-table tr:last-child {
+      border-bottom: none;
+    }
+    .shipping-card {
+      background-color: var(--bg-main);
+      border-radius: var(--radius-md);
+      padding: var(--space-6);
+      margin-top: var(--space-8);
+      border: 1px solid var(--border-color);
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Dynamic Header Injection Placeholder -->
+  <div id="global-header"></div>
+
+  <!-- Main Content -->
+  <main class="shipping-layout">
+    <h1 class="shipping-title">Shipping & Delivery</h1>
+    
+    <p style="color: var(--text-secondary); line-height: 1.6; font-size: 1rem; margin-bottom: var(--space-6);">
+      We strive to deliver your performance gear as fast as possible. Below is the list of our available shipping methods, costs, and estimated transit times.
+    </p>
+
+    <table class="shipping-table">
+      <thead>
+        <tr>
+          <th>Shipping Method</th>
+          <th>Delivery Window</th>
+          <th>Cost</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Standard Ground</strong></td>
+          <td>3 - 5 Business Days</td>
+          <td>Free (Orders over $150) / $8.95</td>
+        </tr>
+        <tr>
+          <td><strong>Express Saver</strong></td>
+          <td>2 Business Days</td>
+          <td>$15.00</td>
+        </tr>
+        <tr>
+          <td><strong>Next-Day Air</strong></td>
+          <td>1 Business Day</td>
+          <td>$25.00</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="shipping-card">
+      <h2 style="font-family: var(--font-display); font-size: 1.15rem; text-transform: uppercase; margin-bottom: var(--space-2); color: var(--text-primary);">Important Shipping Information</h2>
+      <ul style="color: var(--text-secondary); line-height: 1.7; padding-left: 20px; font-size: 0.9rem;">
+        <li>Orders placed before 2:00 PM EST are processed and shipped the same business day.</li>
+        <li>We currently ship to all US states, territories, and select international destinations.</li>
+        <li>Express and Next-Day shipping options do not deliver to P.O. Box addresses due to courier restrictions.</li>
+        <li>International orders are subject to customs duty clearance times which are out of our control.</li>
+      </ul>
+    </div>
+  </main>
+
+  <!-- Dynamic Footer Injection Placeholder -->
+  <div id="global-footer"></div>
+
+  <!-- Core Scripts -->
+  <script src="../js/data.js"></script>
+  <script src="../js/state.js"></script>
+  <script src="../js/components/Header.js"></script>
+  <script src="../js/components/Footer.js"></script>
+  <script src="../js/app.js"></script>
+</body>
+
+</html>

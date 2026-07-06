@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Secure Checkout | StrideX Sports Shoes</title>
+  <meta name="description"
+    content="Secure checkout at StrideX. Provide shipping address, select delivery method, and complete payment.">
+  <link rel="icon" type="image/png" href="../images/shoes/apex_runner_blue.png">
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/pages/landing.css">
+  <link rel="stylesheet" href="../css/pages/checkout.css">
+</head>
+
+<body>
+
+  <!-- Dynamic Header Injection Placeholder -->
+  <div id="global-header"></div>
+
+  <!-- Page Main Content -->
+  <main id="main-content" style="margin-top: 80px; min-height: 85vh; padding-bottom: var(--space-12);">
+    <div class="container">
+
+      <!-- Progress step tracking timeline -->
+      <section class="checkout-progress-container" aria-label="Progress Tracker">
+        <div class="checkout-progress-line" aria-hidden="true"></div>
+        <div class="progress-steps">
+          <a href="cart.html" class="step-node completed" style="text-decoration: none;">
+            <span class="step-circle">&#10003;</span>
+            <span class="step-label">Cart</span>
+          </a>
+          <div class="step-node active">
+            <span class="step-circle">2</span>
+            <span class="step-label">Checkout</span>
+          </div>
+          <div class="step-node">
+            <span class="step-circle">3</span>
+            <span class="step-label">Confirmation</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Main Columns checkout form split grid -->
+      <div class="checkout-layout">
+
+        <!-- Left Column: Checkout Forms -->
+        <section aria-label="Checkout shipping details and payment forms">
+
+          <form id="checkout-shipping-form" novalidate>
+
+            <!-- Section 1: Customer Contact & Shipping Details -->
+            <fieldset class="checkout-section-box">
+              <legend class="checkout-section-title">
+                <span class="checkout-section-num">1</span>
+                Contact & Shipping Details
+              </legend>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="shipping-first-name">First Name</label>
+                  <input type="text" class="form-control" id="shipping-first-name" placeholder="John" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="shipping-last-name">Last Name</label>
+                  <input type="text" class="form-control" id="shipping-last-name" placeholder="Doe" required>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="shipping-email">Email Address</label>
+                  <input type="email" class="form-control" id="shipping-email" placeholder="john.doe@example.com"
+                    required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="shipping-phone">Phone Number</label>
+                  <input type="tel" class="form-control" id="shipping-phone" placeholder="4155552671" required>
+                </div>
+              </div>
+
+              <div class="form-group" style="margin-top: var(--space-4);">
+                <label class="form-label" for="shipping-address">Delivery Street Address</label>
+                <input type="text" class="form-control" id="shipping-address" placeholder="123 Performance Way"
+                  required>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="shipping-city">City</label>
+                  <input type="text" class="form-control" id="shipping-city" placeholder="San Francisco" required>
+                </div>
+                <div class="form-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3);">
+                  <div>
+                    <label class="form-label" for="shipping-state">State</label>
+                    <input type="text" class="form-control" id="shipping-state" placeholder="CA">
+                  </div>
+                  <div>
+                    <label class="form-label" for="shipping-zip">ZIP Code</label>
+                    <input type="text" class="form-control" id="shipping-zip" placeholder="94103" required>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+
+            <!-- Section 2: Delivery Speed Selection -->
+            <fieldset class="checkout-section-box">
+              <legend class="checkout-section-title">
+                <span class="checkout-section-num">2</span>
+                Shipping Speed
+              </legend>
+
+              <div class="delivery-options-grid" role="radiogroup" aria-label="Select delivery speed">
+                <!-- Standard card -->
+                <div class="delivery-option-card active" id="delivery-standard"
+                  onclick="selectDeliveryMethod('standard')" role="radio" aria-checked="true">
+                  <span class="delivery-option-title">Standard Shipping</span>
+                  <span class="delivery-option-time">Takes 3 - 5 business days</span>
+                  <span class="delivery-option-price">FREE (Orders > $150) or $10.00</span>
+                  <input type="radio" name="delivery-option" value="standard" checked style="display: none;">
+                </div>
+
+                <!-- Express card -->
+                <div class="delivery-option-card" id="delivery-express" onclick="selectDeliveryMethod('express')"
+                  role="radio" aria-checked="false">
+                  <span class="delivery-option-title">Express Delivery</span>
+                  <span class="delivery-option-time">Takes 1 - 2 business days</span>
+                  <span class="delivery-option-price">$15.00 Flat Rate</span>
+                  <input type="radio" name="delivery-option" value="express" style="display: none;">
+                </div>
+              </div>
+            </fieldset>
+
+            <!-- Section 3: Billing Address Toggle -->
+            <fieldset class="checkout-section-box">
+              <legend class="checkout-section-title">
+                <span class="checkout-section-num">3</span>
+                Billing Address
+              </legend>
+
+              <label class="filter-checkbox-label" style="font-weight: 700;">
+                <input type="checkbox" id="checkout-billing-same" checked>
+                <span>Billing address is same as shipping address</span>
+              </label>
+
+              <!-- Collapsible billing inputs fields -->
+              <div id="billing-address-fields"
+                style="max-height: 0; overflow: hidden; transition: all var(--transition-normal); display: flex; flex-direction: column; gap: var(--space-4);">
+                <div class="form-group" style="margin-top: var(--space-4);">
+                  <label class="form-label" for="billing-address">Billing Street Address</label>
+                  <input type="text" class="form-control" id="billing-address" placeholder="123 Billing lane">
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label" for="billing-city">City</label>
+                    <input type="text" class="form-control" id="billing-city" placeholder="San Francisco">
+                  </div>
+                  <div class="form-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3);">
+                    <div>
+                      <label class="form-label" for="billing-state">State</label>
+                      <input type="text" class="form-control" id="billing-state" placeholder="CA">
+                    </div>
+                    <div>
+                      <label class="form-label" for="billing-zip">ZIP Code</label>
+                      <input type="text" class="form-control" id="billing-zip" placeholder="94103">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+
+            <!-- Section 4: Payment Integrations -->
+            <fieldset class="checkout-section-box">
+              <legend class="checkout-section-title">
+                <span class="checkout-section-num">4</span>
+                Payment Method
+              </legend>
+
+              <!-- Tabs selectors -->
+              <div class="payment-tabs" role="tablist" aria-label="Payment modes select">
+                <button type="button" class="payment-tab-btn active" data-payment="card" role="tab" aria-selected="true"
+                  aria-controls="payment-panel-card">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                    <line x1="1" y1="10" x2="23" y2="10"></line>
+                  </svg>
+                  Card
+                </button>
+                <button type="button" class="payment-tab-btn" data-payment="upi" role="tab" aria-selected="false"
+                  aria-controls="payment-panel-upi">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                  </svg>
+                  UPI
+                </button>
+                <button type="button" class="payment-tab-btn" data-payment="paypal" role="tab" aria-selected="false"
+                  aria-controls="payment-panel-paypal">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                  </svg>
+                  PayPal
+                </button>
+                <button type="button" class="payment-tab-btn" data-payment="wallet" role="tab" aria-selected="false"
+                  aria-controls="payment-panel-wallet">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <line x1="12" y1="1" x2="12" y2="23"></line>
+                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                  </svg>
+                  Wallets
+                </button>
+              </div>
+
+              <!-- Details forms panels -->
+
+              <!-- 1. Credit Card panel -->
+              <div class="payment-details-panel active" id="payment-panel-card" role="tabpanel"
+                aria-labelledby="payment-tab-card">
+                <div class="form-group">
+                  <label class="form-label" for="card-number">Card Number</label>
+                  <input type="text" class="form-control" id="card-number" placeholder="4111 2222 3333 4444"
+                    maxlength="19" required>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label" for="card-expiry">Expiry Date</label>
+                    <input type="text" class="form-control" id="card-expiry" placeholder="MM/YY" maxlength="5" required>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="card-cvv">Security Code (CVV)</label>
+                    <input type="password" class="form-control" id="card-cvv" placeholder="123" maxlength="3" required>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="card-name">Cardholder Name</label>
+                  <input type="text" class="form-control" id="card-name" placeholder="John Doe" required>
+                </div>
+              </div>
+
+              <!-- 2. UPI Panel -->
+              <div class="payment-details-panel" id="payment-panel-upi" role="tabpanel"
+                aria-labelledby="payment-tab-upi">
+                <div class="form-group">
+                  <label class="form-label" for="upi-vpa">Virtual Payment Address (VPA)</label>
+                  <input type="text" class="form-control" id="upi-vpa" placeholder="john.doe@upi">
+                  <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">Enter your UPI ID. A collect
+                    request will be sent to your UPI app.</p>
+                </div>
+              </div>
+
+              <!-- 3. PayPal Panel -->
+              <div class="payment-details-panel" id="payment-panel-paypal" role="tabpanel"
+                aria-labelledby="payment-tab-paypal">
+                <div style="text-align: center; padding: var(--space-4); color: var(--text-secondary);">
+                  <p style="font-size: 0.9rem; margin-bottom: var(--space-4);">Clicking "Place Order" will redirect you
+                    to PayPal to complete your purchase securely.</p>
+                </div>
+              </div>
+
+              <!-- 4. GPay / Apple Pay Panel -->
+              <div class="payment-details-panel" id="payment-panel-wallet" role="tabpanel"
+                aria-labelledby="payment-tab-wallet">
+                <div style="text-align: center; padding: var(--space-4); color: var(--text-secondary);">
+                  <p style="font-size: 0.9rem; margin-bottom: var(--space-4);">Select quick payment options in the next
+                    pop-up.</p>
+                </div>
+              </div>
+            </fieldset>
+
+            <!-- Primary Place Order checkout button -->
+            <button type="submit" class="btn btn-primary btn-ripple" id="checkout-place-order-btn"
+              style="width: 100%; padding: 1.1rem 0; font-size: 1.05rem;">
+              Place Order & Pay Securely
+            </button>
+          </form>
+
+        </section>
+
+        <!-- Right Column: Sticky summaries sidebar and validations -->
+        <aside style="display: flex; flex-direction: column; gap: var(--space-6);">
+
+          <!-- Compact summaries side panel card -->
+          <div class="summary-panel" style="position: sticky; top: 100px;">
+            <h3 class="summary-title">Your Order</h3>
+
+            <!-- Compact products list wrapper -->
+            <div class="summary-items-list" id="checkout-items-list">
+              <!-- Dynamically rendered -->
+            </div>
+
+            <hr style="border: none; border-top: 1px solid var(--border-color); margin: var(--space-2) 0;">
+
+            <!-- Coupon application fields -->
+            <div style="display: flex; gap: var(--space-2);">
+              <input type="text" class="coupon-input" id="checkout-coupon-code" placeholder="STRIDEX20"
+                aria-label="Checkout coupon code" style="padding: 0.5rem 0.75rem; font-size: 0.85rem;">
+              <button type="button" class="btn btn-dark btn-ripple btn-sm" id="checkout-coupon-btn"
+                style="padding: 0.5rem 1rem;">Apply</button>
+            </div>
+            <div class="coupon-msg" id="checkout-coupon-alert" style="margin-top: 2px;"></div>
+
+            <hr style="border: none; border-top: 1px solid var(--border-color); margin: var(--space-2) 0;">
+
+            <!-- Pricing subtotals -->
+            <div class="summary-row" style="font-size: 0.9rem;">
+              <span>Subtotal</span>
+              <strong id="summary-subtotal">$0.00</strong>
+            </div>
+            <div class="summary-row" style="font-size: 0.9rem;">
+              <span>Estimated Taxes (8%)</span>
+              <strong id="summary-tax">$0.00</strong>
+            </div>
+            <div class="summary-row" style="font-size: 0.9rem;">
+              <span>Standard Delivery</span>
+              <strong id="summary-shipping">FREE</strong>
+            </div>
+            <div class="summary-row" id="summary-discount-row"
+              style="font-size: 0.9rem; color: #2ed610; display: none;">
+              <span>Discount</span>
+              <strong id="summary-discount">-$0.00</strong>
+            </div>
+            <div class="summary-row total" style="font-size: 1.15rem; margin-top: var(--space-2);">
+              <span>Grand Total</span>
+              <strong id="summary-total">$0.00</strong>
+            </div>
+
+            <!-- Guarantee text shields -->
+            <div
+              style="display: flex; flex-direction: column; gap: var(--space-2); margin-top: var(--space-4); border-top: 1px solid var(--border-color); padding-top: var(--space-4); font-size: 0.75rem; color: var(--text-muted); text-align: left;">
+              <div style="display: flex; align-items: center; gap: var(--space-2);">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                  stroke-linecap="round" stroke-linejoin="round" style="color: #2ed610;">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+                <span>SSL Secured Checkout Platform</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: var(--space-2);">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                  stroke-linecap="round" stroke-linejoin="round" style="color: #2ed610;">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                </svg>
+                <span>30-Day Money Back Guarantee Protection</span>
+              </div>
+            </div>
+          </div>
+
+        </aside>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Dynamic Footer Injection Placeholder -->
+  <div id="global-footer"></div>
+
+  <!-- Core Scripts -->
+  <script src="../js/data.js?v=1.1"></script>
+  <script src="../js/state.js?v=1.1"></script>
+  <script src="../js/components/Header.js?v=1.1"></script>
+  <script src="../js/components/Footer.js?v=1.1"></script>
+  <script src="../js/app.js?v=1.1"></script>
+
+  <!-- Page Specific Logic Script -->
+  <script src="../js/pages/checkout.js?v=1.1"></script>
+</body>
+
+</html>

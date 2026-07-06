@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Support | StrideX</title>
+  <meta name="description" content="Contact the StrideX support team for shipping details, fitting issues, or order modifications.">
+  <link rel="icon" type="image/png" href="../images/shoes/apex_runner_blue.png">
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/pages/landing.css">
+  <link rel="stylesheet" href="../css/pages/detail.css">
+  <style>
+    .contact-layout {
+      max-width: 960px;
+      margin: 120px auto var(--space-16);
+      padding: 0 var(--space-6);
+    }
+    .contact-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3rem);
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: var(--space-8);
+    }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: var(--space-8);
+      margin-top: var(--space-6);
+    }
+    @media (max-width: 768px) {
+      .contact-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-10);
+      }
+    }
+    .contact-card {
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: var(--space-8);
+      background-color: var(--bg-card);
+    }
+    .info-list {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+    .info-item {
+      display: flex;
+      gap: var(--space-3);
+      align-items: flex-start;
+    }
+    .info-icon {
+      color: var(--primary);
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Dynamic Header Injection Placeholder -->
+  <div id="global-header"></div>
+
+  <!-- Main Content -->
+  <main class="contact-layout">
+    <h1 class="contact-title">Contact Support</h1>
+    
+    <div class="contact-grid">
+      <!-- Left Column: Form -->
+      <section aria-labelledby="form-heading">
+        <h2 id="form-heading" class="sr-only">Submit Contact Ticket</h2>
+        <div class="contact-card">
+          <form id="contact-support-form" onsubmit="handleContactSubmit(event)">
+            <div class="form-group" style="margin-bottom: var(--space-4);">
+              <label class="form-label" for="contact-name">Full Name</label>
+              <input type="text" class="form-control" id="contact-name" placeholder="John Doe" required style="width: 100%;">
+            </div>
+            
+            <div class="form-group" style="margin-bottom: var(--space-4);">
+              <label class="form-label" for="contact-email">Email Address</label>
+              <input type="email" class="form-control" id="contact-email" placeholder="john@example.com" required style="width: 100%;">
+            </div>
+
+            <div class="form-group" style="margin-bottom: var(--space-4);">
+              <label class="form-label" for="contact-topic">Support Topic</label>
+              <select class="form-control" id="contact-topic" required style="width: 100%; cursor: pointer;">
+                <option value="">Select a topic...</option>
+                <option value="shipping">Shipping & Delivery Status</option>
+                <option value="returns">Returns & Exchanges Refund</option>
+                <option value="sizing">Footwear Sizing Advice</option>
+                <option value="defect">Warranty & Product Defects</option>
+              </select>
+            </div>
+
+            <div class="form-group" style="margin-bottom: var(--space-4);">
+              <label class="form-label" for="contact-msg">Your Message</label>
+              <textarea class="form-control" id="contact-msg" rows="4" placeholder="Tell us how we can assist you..." required style="width: 100%; resize: vertical;"></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.95rem 0; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">
+              Send Message
+            </button>
+          </form>
+        </div>
+      </section>
+
+      <!-- Right Column: Info Details -->
+      <section aria-labelledby="info-heading" style="display: flex; flex-direction: column; justify-content: center;">
+        <h2 id="info-heading" style="font-family: var(--font-display); font-size: 1.5rem; text-transform: uppercase; margin-bottom: var(--space-4);">Get in Touch</h2>
+        <p style="color: var(--text-secondary); line-height: 1.6; margin-bottom: var(--space-6);">
+          Our performance shoe support experts are ready to assist you. Average response times are currently under 12 hours.
+        </p>
+
+        <ul class="info-list">
+          <li class="info-item">
+            <svg class="info-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+            </svg>
+            <div>
+              <span style="font-weight: 700; display: block; font-size: 0.95rem;">Phone Support</span>
+              <span style="color: var(--text-secondary); font-size: 0.875rem;">1-800-STRIDEX (1-800-787-4339)</span>
+            </div>
+          </li>
+          <li class="info-item">
+            <svg class="info-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+              <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+            <div>
+              <span style="font-weight: 700; display: block; font-size: 0.95rem;">Email Support</span>
+              <span style="color: var(--text-secondary); font-size: 0.875rem;">support@stridex.com</span>
+            </div>
+          </li>
+          <li class="info-item">
+            <svg class="info-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            <div>
+              <span style="font-weight: 700; display: block; font-size: 0.95rem;">Support Hours</span>
+              <span style="color: var(--text-secondary); font-size: 0.875rem;">Monday - Friday: 8:00 AM - 8:00 PM EST</span>
+              <span style="color: var(--text-secondary); font-size: 0.875rem; display: block;">Saturday - Sunday: 10:00 AM - 4:00 PM EST</span>
+            </div>
+          </li>
+        </ul>
+      </section>
+    </div>
+  </main>
+
+  <!-- Dynamic Footer Injection Placeholder -->
+  <div id="global-footer"></div>
+
+  <!-- Contact Form Handler script -->
+  <script>
+    function handleContactSubmit(event) {
+      event.preventDefault();
+      
+      const name = document.getElementById("contact-name").value.trim();
+      const email = document.getElementById("contact-email").value.trim();
+      const topic = document.getElementById("contact-topic").value;
+      const msg = document.getElementById("contact-msg").value.trim();
+
+      if (!name || !email || !topic || !msg) return;
+
+      // Call dynamic notification toast from global context
+      if (typeof window.showToast === "function") {
+        window.showToast("Ticket submitted! Our performance team will email you shortly.", "success");
+      } else {
+        alert("Support request sent successfully! Thank you.");
+      }
+
+      // Reset form
+      document.getElementById("contact-support-form").reset();
+    }
+  </script>
+
+  <!-- Core Scripts -->
+  <script src="../js/data.js"></script>
+  <script src="../js/state.js"></script>
+  <script src="../js/components/Header.js"></script>
+  <script src="../js/components/Footer.js"></script>
+  <script src="../js/app.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,11 @@
+{
+  "name": "stridex-sports-shoes",
+  "version": "1.0.0",
+  "description": "Premium Sports Shoes Ecommerce website built with HTML5, CSS3, and Vanilla JS.",
+  "scripts": {
+    "dev": "npx http-server -p 3000"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}

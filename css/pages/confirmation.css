@@ -1,0 +1,420 @@
+/* Order Confirmation Page Specific Styles */
+
+/* Progress step tracking timeline */
+.checkout-progress-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: var(--space-6) 0 var(--space-10);
+  position: relative;
+  width: 100%;
+}
+
+.checkout-progress-line {
+  position: absolute;
+  top: 18px;
+  left: 20%;
+  width: 60%;
+  height: 2px;
+  background-color: var(--border-color);
+  z-index: 1;
+}
+
+.progress-steps {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 600px;
+  position: relative;
+  z-index: 2;
+}
+
+.step-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.step-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  background-color: var(--bg-card);
+  border: 2px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  transition: all var(--transition-fast);
+}
+
+.step-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.step-node.completed .step-circle {
+  background-color: var(--primary);
+  border-color: var(--primary);
+  color: var(--text-light);
+}
+
+.step-node.completed .step-label {
+  color: var(--primary);
+}
+
+.step-node.active .step-circle {
+  border-color: var(--primary);
+  color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(0, 85, 255, 0.15);
+}
+
+.step-node.active .step-label {
+  color: var(--text-primary);
+}
+
+/* 1. Success checkmark drawing animation */
+.success-checkmark-svg {
+  width: 80px;
+  height: 80px;
+  display: block;
+  margin: 0 auto;
+}
+
+.checkmark-circle {
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  stroke-width: 2;
+  stroke-miterlimit: 10;
+  stroke: #2ed610;
+  fill: none;
+  animation: strokeCircle 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.checkmark-check {
+  transform-origin: 50% 50%;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  stroke-width: 3;
+  stroke: #2ed610;
+  fill: none;
+  animation: strokeCheck 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.6s forwards;
+}
+
+@keyframes strokeCircle {
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes strokeCheck {
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* 2. Visual tracking status timeline */
+.tracking-timeline-container {
+  width: 100%;
+  max-width: 540px;
+  margin: var(--space-8) auto;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tracking-timeline-line {
+  position: absolute;
+  top: 18px;
+  left: 5%;
+  width: 90%;
+  height: 3px;
+  background-color: var(--border-color);
+  z-index: 1;
+}
+
+.tracking-timeline-line-fill {
+  position: absolute;
+  top: 18px;
+  left: 5%;
+  width: 30%;
+  height: 3px;
+  background-color: var(--primary);
+  z-index: 1.5;
+}
+
+.tracking-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  position: relative;
+  z-index: 2;
+}
+
+.tracking-circle {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-full);
+  background-color: var(--bg-card);
+  border: 2px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-weight: 700;
+  font-size: 0.95rem;
+  transition: all var(--transition-fast);
+}
+
+.tracking-step.completed .tracking-circle {
+  background-color: var(--primary);
+  border-color: var(--primary);
+  color: var(--text-light);
+}
+
+.tracking-step.active .tracking-circle {
+  border-color: var(--primary);
+  color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(0, 85, 255, 0.12);
+  background-color: var(--bg-card);
+}
+
+.tracking-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.tracking-step.completed .tracking-label {
+  color: var(--primary);
+}
+
+.tracking-step.active .tracking-label {
+  color: var(--text-primary);
+}
+
+/* 3. Invoice Receipt grids cards */
+.receipt-layout {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: var(--space-6);
+  width: 100%;
+  margin-top: var(--space-6);
+  text-align: left;
+}
+
+@media (max-width: 576px) {
+  .receipt-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.receipt-card {
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
+  background-color: var(--bg-main);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.receipt-card-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 4px;
+}
+
+.receipt-card-row {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 0.9rem;
+}
+
+.receipt-card-row span:first-child {
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.receipt-card-row span:last-child {
+  color: var(--text-secondary);
+}
+
+/* Purchased items compact layout list */
+.purchased-items-box {
+  width: 100%;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
+  text-align: left;
+  background-color: var(--bg-card);
+}
+
+.purchased-item-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-4) 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.purchased-item-row:last-child {
+  border-bottom: none;
+}
+
+.purchased-item-img-wrapper {
+  width: 60px;
+  height: 60px;
+  background-color: var(--bg-main);
+  border-radius: var(--radius-sm);
+  padding: var(--space-1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.purchased-item-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.purchased-item-name {
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.purchased-item-meta {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.purchased-item-price {
+  margin-left: auto;
+  font-weight: 800;
+  font-family: var(--font-display);
+}
+
+/* 4. Referral Section Card */
+.referral-card {
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: var(--space-8) var(--space-6);
+  background: linear-gradient(135deg, rgba(255, 102, 0, 0.04) 0%, rgba(0, 85, 255, 0.04) 100%), var(--bg-card);
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  position: relative;
+  overflow: hidden;
+}
+
+.referral-card::before {
+  content: '';
+  position: absolute;
+  top: -50px;
+  left: -50px;
+  width: 120px;
+  height: 120px;
+  background-color: rgba(255, 102, 0, 0.1);
+  border-radius: var(--radius-full);
+  filter: blur(20px);
+}
+
+.referral-title {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--text-primary);
+}
+
+/* 5. Print Layout Overrides */
+@media print {
+  body {
+    background-color: white !important;
+    color: black !important;
+  }
+  
+  .site-header, 
+  .site-footer, 
+  .checkout-progress-container,
+  .tracking-timeline-container,
+  .referral-card,
+  #conf-actions-row,
+  #conf-recommend-section {
+    display: none !important;
+  }
+  
+  main {
+    margin-top: 0 !important;
+    padding: 0 !important;
+  }
+  
+  .confirmation-card {
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+  }
+  
+  .receipt-layout {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}
+
+/* Purchased items details wrapping for mobile */
+@media (max-width: 576px) {
+  .purchased-item-row {
+    flex-wrap: wrap !important;
+    gap: var(--space-2) !important;
+  }
+  
+  .purchased-item-details {
+    flex: 1 1 140px !important;
+  }
+  
+  .purchased-item-price {
+    width: 100% !important;
+    text-align: right !important;
+    font-weight: 800 !important;
+    margin-top: 2px !important;
+  }
+}
+
+/* Referral link box stack on mobile screens */
+.referral-link-group {
+  display: flex;
+  gap: var(--space-2);
+  width: 100%;
+}
+
+@media (max-width: 576px) {
+  .referral-link-group {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+  
+  .referral-link-group input,
+  .referral-link-group button {
+    width: 100% !important;
+  }
+}
