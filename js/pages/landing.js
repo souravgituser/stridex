@@ -27,48 +27,9 @@ function initBestSellersSlider() {
   const bestSellers = PRODUCTS.slice(0, 6);
 
   sliderTrack.innerHTML = bestSellers.map(product => {
-    const isSale = product.badge === "Sale";
-    const discountPrice = isSale ? product.originalPrice : null;
-    const badgeHTML = product.badge 
-      ? `<span class="product-card-badge ${product.badge.toLowerCase()}">${product.badge}</span>` 
-      : "";
-    
-    const colorsObj = product.colors[0];
-
     return `
-      <div class="slider-card-wrapper">
-        <article class="product-card reveal-on-scroll">
-          ${badgeHTML}
-          <div class="product-card-img-wrapper">
-            <a href="pages/product-detail.html?id=${product.id}">
-              <img class="product-card-img" src="${colorsObj.image}" alt="${product.name}">
-            </a>
-            <button class="product-card-quickbuy quick-add-btn" data-id="${product.id}" aria-label="Quick add ${product.name} to cart">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="12" y1="5" x2="12" y2="19"></line>
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-              </svg>
-            </button>
-          </div>
-          <div class="product-card-content">
-            <span class="product-card-tag">${product.category}</span>
-            <h3 class="product-card-title">
-              <a href="pages/product-detail.html?id=${product.id}">${product.name}</a>
-            </h3>
-            <div class="product-card-footer">
-              <div class="product-card-price">
-                $${product.price.toFixed(2)}
-                ${discountPrice ? `<span class="product-card-price-original">$${discountPrice.toFixed(2)}</span>` : ""}
-              </div>
-              <div class="product-card-rating">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                </svg>
-                <span>${product.rating}</span>
-              </div>
-            </div>
-          </div>
-        </article>
+      <div class="slider-card-wrapper reveal-on-scroll">
+        ${renderProductCard(product)}
       </div>
     `;
   }).join("");
@@ -91,26 +52,6 @@ function initBestSellersSlider() {
       left: getScrollAmount(),
       behavior: "smooth"
     });
-  });
-
-  // Attach quick add event listener
-  sliderTrack.addEventListener("click", (e) => {
-    const quickAdd = e.target.closest(".quick-add-btn");
-    if (quickAdd) {
-      const id = quickAdd.dataset.id;
-      const product = getProductById(id);
-      if (product) {
-        // Add to cart with default first size and first color
-        const size = product.sizes[0] || 9;
-        const color = product.colors[0].name;
-        addToCart(product.id, size, color, 1);
-        
-        // Open slide-out cart to show success
-        if (typeof window.openCartDrawer === "function") {
-          window.openCartDrawer();
-        }
-      }
-    }
   });
 }
 

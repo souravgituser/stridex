@@ -381,62 +381,7 @@
   margin: var(--space-8) auto var(--space-16);
 }
 
-/* 5. Toast Notifications container */
-.toast-container {
-  position: fixed;
-  top: 96px; /* Offset sticky header */
-  right: var(--space-6);
-  z-index: var(--z-toast);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-  pointer-events: none;
-  max-width: 360px;
-  width: 100%;
-}
-
-.toast {
-  background-color: var(--bg-glass);
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
-  border: 1px solid var(--border-light);
-  border-radius: var(--radius-sm);
-  padding: var(--space-4) var(--space-5);
-  box-shadow: var(--shadow-lg);
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  pointer-events: auto;
-  animation: slideInRight var(--transition-normal) forwards, fadeOut 300ms ease-out 3s forwards;
-  position: relative;
-  overflow: hidden;
-}
-
-.toast.success {
-  border-left: 4px solid #2ed610;
-  color: var(--text-primary);
-}
-
-.toast.warning {
-  border-left: 4px solid var(--secondary);
-  color: var(--text-primary);
-}
-
-.toast-message {
-  font-size: 0.875rem;
-  font-weight: 600;
-}
-
-@keyframes fadeOut {
-  to {
-    opacity: 0;
-    transform: translateY(-10px) scale(0.95);
-    height: 0;
-    padding: 0;
-    margin: 0;
-    border: none;
-  }
-}
+/* 5. Toast Notifications container (moved to components.css) */
 
 .cart-item-remove-btn {
   background: none;

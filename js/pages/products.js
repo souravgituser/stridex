@@ -61,8 +61,11 @@ document.addEventListener("DOMContentLoaded", () => {
   // Mobile filters overlay toggles
   setupMobileFilters();
 
-  // Setup Quick View Modal close actions
-  setupQuickViewClose();
+  // Listen to global wishlist updates to keep local list in sync
+  window.addEventListener("stridex:wishlist-updated", () => {
+    wishlist = JSON.parse(localStorage.getItem("stridex_wishlist") || "[]");
+    applyFiltersAndRender();
+  });
 });
 
 // Setup sidebar collapsibles
@@ -526,76 +529,11 @@ function renderProductGrid(items) {
   }
 
   container.innerHTML = items.map((product, idx) => {
-    const isSale = product.badge === "Sale";
-    const discountPrice = isSale ? product.originalPrice : null;
-    const badgeHTML = product.badge 
-      ? `<span class="product-card-badge ${product.badge.toLowerCase()}">${product.badge}</span>` 
-      : "";
-    
-    const isWished = wishlist.includes(product.id) ? "active" : "";
-    const primaryColor = product.colors[0];
-
-    // Swatches HTML
-    const swatchesHTML = product.colors.map(col => `
-      <span class="card-swatch" style="background-color: ${col.hex};" title="${col.name}"></span>
-    `).join("");
-
-    // Sizes previews HTML
-    const sizesHTML = `Sizes: ${product.sizes[0]}-${product.sizes[product.sizes.length - 1]}`;
-
-    return `
-      <article class="product-card grid-animate-item" style="animation-delay: ${idx * 50}ms;">
-        ${badgeHTML}
-        
-        <!-- Wishlist toggle -->
-        <button class="product-card-wishlist ${isWished}" onclick="handleWishlistToggle('${product.id}', this)" aria-label="Add ${product.name} to wishlist">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
-            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-          </svg>
-        </button>
-
-        <!-- Product Image -->
-        <div class="product-card-img-wrapper">
-          <a href="product-detail.html?id=${product.id}">
-            <img class="product-card-img" src="${getPathPrefix()}${primaryColor.image}" alt="${product.name}">
-          </a>
-          
-          <!-- Slide Up Quick View Trigger -->
-          <button class="product-card-quickview-btn" onclick="openQuickView('${product.id}')">
-            Quick View
-          </button>
-        </div>
-
-        <!-- Contents -->
-        <div class="product-card-content">
-          <span class="product-card-tag">${product.category}</span>
-          <h3 class="product-card-title">
-            <a href="product-detail.html?id=${product.id}">${product.name}</a>
-          </h3>
-          
-          <div class="product-card-swatches" aria-label="Colorway options">
-            ${swatchesHTML}
-          </div>
-          
-          <div class="card-sizes-preview" aria-label="Available sizing details">
-            ${sizesHTML}
-          </div>
-
-          <div class="product-card-footer">
-            <div class="product-card-price">
-              $${product.price.toFixed(2)}
-              ${discountPrice ? `<span class="product-card-price-original">$${discountPrice.toFixed(2)}</span>` : ""}
-            </div>
-            <div class="product-card-rating">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-              </svg>
-              <span>${product.rating}</span>
-            </div>
-          </div>
-        </div>
-      </article>
-    `;
+    const cardHtml = renderProductCard(product, wishlist);
+    return cardHtml.replace(
+      '<article class="product-card">', 
+      `<article class="product-card grid-animate-item" style="animation-delay: ${idx * 50}ms;">`
+    );
   }).join("");
 }
 
@@ -644,21 +582,7 @@ window.changePage = function(pageNumber) {
   });
 };
 
-// Wishlist handling
-window.handleWishlistToggle = function(productId, element) {
-  const idx = wishlist.indexOf(productId);
-  if (idx > -1) {
-    wishlist.splice(idx, 1);
-    element.classList.remove("active");
-  } else {
-    wishlist.push(productId);
-    element.classList.add("active");
-  }
-  localStorage.setItem("stridex_wishlist", JSON.stringify(wishlist));
-  
-  // Dispatch custom event to notify other components (like Header)
-  window.dispatchEvent(new CustomEvent("stridex:wishlist-updated"));
-};
+
 
 // Render active filter tags row
 function updateFilterTags() {
@@ -793,111 +717,4 @@ window.clearAllFilters = function() {
   updateFilterTags();
 };
 
-// 4. Quick View Actions
-let selectedQuickViewProduct = null;
-let selectedQuickViewSize = null;
 
-window.openQuickView = function(productId) {
-  const product = getProductById(productId);
-  if (!product) return;
-
-  selectedQuickViewProduct = product;
-  selectedQuickViewSize = product.sizes[0] || null; // default to first size
-
-  const overlay = document.getElementById("quick-view-overlay");
-  const modalContent = document.getElementById("quick-view-modal-content");
-
-  if (!overlay || !modalContent) return;
-
-  const activeColor = product.colors[0];
-  const isSale = product.badge === "Sale";
-  const discountPrice = isSale ? product.originalPrice : null;
-
-  modalContent.innerHTML = `
-    <!-- Left: Image -->
-    <div class="quick-view-gallery">
-      <img src="${getPathPrefix()}${activeColor.image}" alt="${product.name}" class="quick-view-img">
-    </div>
-    
-    <!-- Right: Form -->
-    <div class="quick-view-details">
-      <span class="detail-category-tag" style="font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: var(--text-muted);">${product.category}</span>
-      <h3 style="font-family: var(--font-display); font-size: 1.35rem; text-transform: uppercase; font-weight: 800; line-height: 1.2; color: var(--text-primary); margin: 0;">${product.name}</h3>
-      
-      <div class="detail-price-row" style="display: flex; align-items: baseline; gap: var(--space-2);">
-        <span style="font-weight: 800; font-family: var(--font-display); font-size: 1.35rem; color: var(--text-primary);">$${product.price.toFixed(2)}</span>
-        ${discountPrice ? `<span style="text-decoration: line-through; color: var(--text-muted); font-size: 1rem; font-weight: 600; margin-left: var(--space-1);">$${discountPrice.toFixed(2)}</span>` : ""}
-      </div>
-
-      <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; margin: 0;">${product.description}</p>
-
-      <div>
-        <h4 style="font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px;">US Men Sizing</h4>
-        <div class="quick-view-size-selector" id="quick-sizes-list">
-          ${product.sizes.map(size => `
-            <button class="quick-view-size-btn ${selectedQuickViewSize === size ? "active" : ""}" onclick="selectQuickViewSize(${size}, this)" type="button">
-              ${size}
-            </button>
-          `).join("")}
-        </div>
-      </div>
-
-      <button class="btn btn-primary" onclick="submitQuickViewCart()" style="margin-top: var(--space-2); width: 100%; padding: 0.75rem 0; font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em;">
-        Add To Cart
-      </button>
-    </div>
-  `;
-
-  // Show overlay modal
-  overlay.classList.add("active");
-  document.body.style.overflow = "hidden"; // Prevents background scroll
-};
-
-window.selectQuickViewSize = function(size, element) {
-  selectedQuickViewSize = size;
-  document.querySelectorAll(".quick-view-size-btn").forEach(btn => {
-    btn.classList.remove("active");
-  });
-  element.classList.add("active");
-};
-
-function setupQuickViewClose() {
-  const overlay = document.getElementById("quick-view-overlay");
-  const closeBtn = document.getElementById("quick-view-close-btn");
-
-  const closeModal = () => {
-    overlay.classList.remove("active");
-    document.body.style.overflow = "";
-  };
-
-  if (closeBtn) closeBtn.addEventListener("click", closeModal);
-  if (overlay) {
-    overlay.addEventListener("click", (e) => {
-      if (e.target === overlay) closeModal();
-    });
-  }
-}
-
-// Add Quick View Add to Cart execution
-window.submitQuickViewCart = function() {
-  if (!selectedQuickViewProduct) return;
-  if (!selectedQuickViewSize) {
-    alert("Please select a size.");
-    return;
-  }
-
-  const p = selectedQuickViewProduct;
-  const colName = p.colors[0].name;
-
-  addToCart(p.id, selectedQuickViewSize, colName, 1);
-
-  // Close Quick view
-  const overlay = document.getElementById("quick-view-overlay");
-  if (overlay) overlay.classList.remove("active");
-  document.body.style.overflow = "";
-
-  // Open Cart Drawer
-  if (typeof window.openCartDrawer === "function") {
-    window.openCartDrawer();
-  }
-};

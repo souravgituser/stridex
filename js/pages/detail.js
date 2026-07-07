@@ -434,28 +434,7 @@ function initRelatedProducts() {
 
   container.innerHTML = related.map(product => `
     <div class="slider-card-wrapper">
-      <article class="product-card" style="height: 100%;">
-        <div class="product-card-img-wrapper" style="aspect-ratio: 1.3 / 1; padding: var(--space-4);">
-          <a href="product-detail.html?id=${product.id}">
-            <img class="product-card-img" src="${getPathPrefix()}${product.colors[0].image}" alt="${product.name}">
-          </a>
-        </div>
-        <div class="product-card-content" style="padding: var(--space-4);">
-          <span class="product-card-tag">${product.category}</span>
-          <h4 class="product-card-title" style="font-size: 0.95rem;">
-            <a href="product-detail.html?id=${product.id}">${product.name}</a>
-          </h4>
-          <div class="product-card-footer">
-            <div class="product-card-price" style="font-weight: 800; font-family: var(--font-display);">$${product.price.toFixed(2)}</div>
-            <div class="product-card-rating">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-              </svg>
-              <span>${product.rating}</span>
-            </div>
-          </div>
-        </div>
-      </article>
+      ${renderProductCard(product)}
     </div>
   `).join("");
 

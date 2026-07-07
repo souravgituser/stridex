@@ -141,24 +141,5 @@ function renderConfRecommendations(orderedItems = []) {
   // Filter products that were not bought
   const recommend = PRODUCTS.filter(p => !orderedIds.includes(p.id)).slice(0, 3);
 
-  container.innerHTML = recommend.map(product => `
-    <article class="product-card">
-      <div class="product-card-img-wrapper" style="aspect-ratio: 1.3 / 1; padding: var(--space-4);">
-        <a href="product-detail.html?id=${product.id}">
-          <img class="product-card-img" src="${getPathPrefix()}${product.colors[0].image}" alt="${product.name}">
-        </a>
-      </div>
-      <div class="product-card-content" style="padding: var(--space-4);">
-        <h4 class="product-card-title" style="font-size: 0.95rem; margin-bottom: 2px;">
-          <a href="product-detail.html?id=${product.id}">${product.name}</a>
-        </h4>
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: var(--space-2); border-top: 1px solid var(--border-color);">
-          <span style="font-weight: 800; font-family: var(--font-display); font-size: 1rem;">$${product.price.toFixed(2)}</span>
-          <a href="product-detail.html?id=${product.id}" class="btn btn-dark btn-sm" style="padding: 0.35rem 0.65rem; font-size: 0.7rem;">
-            View
-          </a>
-        </div>
-      </div>
-    </article>
-  `).join("");
+  container.innerHTML = recommend.map(product => renderProductCard(product)).join("");
 }

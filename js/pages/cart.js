@@ -4,9 +4,6 @@ const SAVED_ITEMS_KEY = "stridex_saved_items";
 let appliedDiscountPct = 0; // percentage deduction
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Initialize Toast Container
-  createToastContainer();
-
   // Render initial Cart page details
   renderCartPage();
 
@@ -22,42 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
   renderUpsellRecommendations();
 });
 
-// Toast notification container creation
-function createToastContainer() {
-  if (!document.getElementById("toast-container")) {
-    const container = document.createElement("div");
-    container.id = "toast-container";
-    container.className = "toast-container";
-    document.body.appendChild(container);
-  }
-}
 
-// Global Toast Generator
-window.showToast = function(message, type = "success") {
-  const container = document.getElementById("toast-container");
-  if (!container) return;
-
-  const toast = document.createElement("div");
-  toast.className = `toast ${type}`;
-  
-  // Icon
-  const checkIcon = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
-  const warnIcon = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>`;
-  
-  toast.innerHTML = `
-    <div style="flex-shrink: 0; display: flex; align-items: center; justify-content: center; height: 100%;">
-      ${type === "success" ? checkIcon : warnIcon}
-    </div>
-    <span class="toast-message">${message}</span>
-  `;
-
-  container.appendChild(toast);
-
-  // Automatically delete from DOM after animations
-  setTimeout(() => {
-    toast.remove();
-  }, 3300);
-};
 
 // Parse items saved for later
 function getSavedItems() {
@@ -410,32 +372,5 @@ function renderUpsellRecommendations() {
   // Filter products that are not currently inside the cart
   const upsell = PRODUCTS.filter(p => !cart.some(item => item.id === p.id)).slice(0, 3);
 
-  container.innerHTML = upsell.map(product => `
-    <article class="product-card">
-      <div class="product-card-img-wrapper" style="aspect-ratio: 1.3 / 1; padding: var(--space-4);">
-        <a href="product-detail.html?id=${product.id}">
-          <img class="product-card-img" src="${getPathPrefix()}${product.colors[0].image}" alt="${product.name}">
-        </a>
-      </div>
-      <div class="product-card-content" style="padding: var(--space-4);">
-        <h4 class="product-card-title" style="font-size: 0.95rem; margin-bottom: var(--space-1);">${product.name}</h4>
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: var(--space-2); border-top: 1px solid var(--border-color);">
-          <span style="font-weight: 800; font-family: var(--font-display); font-size: 1rem;">$${product.price.toFixed(2)}</span>
-          <button class="btn btn-dark btn-sm" onclick="executeUpsellAdd('${product.id}')" style="padding: 0.35rem 0.65rem; font-size: 0.7rem;">
-            Add
-          </button>
-        </div>
-      </div>
-    </article>
-  `).join("");
+  container.innerHTML = upsell.map(product => renderProductCard(product)).join("");
 }
-
-window.executeUpsellAdd = function(productId) {
-  const p = PRODUCTS.find(prod => prod.id === productId);
-  if (p) {
-    const size = p.sizes[0] || 9;
-    const colName = p.colors[0].name;
-    addToCart(p.id, size, colName, 1);
-    showToast(`${p.name} added to your cart.`);
-  }
-};
