@@ -271,19 +271,40 @@ window.executeQtyAdjust = function(key, quantity) {
   }
 };
 
-// Remove Cart item
+// Remove Cart item (and cascade-remove any bundle companions)
 window.executeCartRemove = function(key) {
   const row = document.getElementById(`row-${key}`);
   if (row) {
     row.style.opacity = "0";
     row.style.transform = "translateX(-20px)";
   }
-  
+
   setTimeout(() => {
+    // Find any bundle child items linked to this key before removing
+    const cart = getCart();
+    const bundleChildren = cart.filter(i => i.bundleParent === key);
+
+    // Remove main item
     removeFromCart(key);
-    showToast("Item removed from your cart.", "warning");
+
+    // Cascade-remove all bundle companions
+    if (bundleChildren.length > 0) {
+      bundleChildren.forEach(child => {
+        // Animate child row out
+        const childRow = document.getElementById(`row-${child.key}`);
+        if (childRow) {
+          childRow.style.opacity = "0";
+          childRow.style.transform = "translateX(-20px)";
+        }
+        removeFromCart(child.key);
+      });
+      showToast(`Item and ${bundleChildren.length} bundled accessory removed.`, "warning");
+    } else {
+      showToast("Item removed from your cart.", "warning");
+    }
   }, 250);
 };
+
 
 // Save Item for Later (move to localStorage array)
 window.executeSaveForLater = function(key) {

@@ -173,6 +173,12 @@
   background-color: var(--text-primary);
 }
 
+.product-card-badge.exclusive {
+  background-color: #f5c518;
+  color: #1a1200;
+  box-shadow: 0 2px 8px rgba(200, 150, 12, 0.45);
+}
+
 .product-card-quickbuy {
   position: absolute;
   bottom: var(--space-4);
@@ -373,6 +379,100 @@
 .product-card:hover .card-sizes-preview {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* ---- Out of Stock Card State ---- */
+.product-card-oos-badge {
+  position: absolute;
+  top: calc(var(--space-2) + 36px);
+  left: var(--space-3);
+  z-index: 5;
+  background: rgba(0, 0, 0, 0.72);
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 4px;
+}
+
+.product-card-img-wrapper.oos .product-card-img {
+  filter: grayscale(60%) opacity(0.8);
+}
+
+/* ---- Inline Card Size Picker ---- */
+.card-size-picker {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 30;
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+  box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.35);
+  padding: var(--space-3) var(--space-4) var(--space-4);
+  animation: fadeInUp 0.2s ease both;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.card-size-picker-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-3);
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-secondary);
+}
+
+.card-size-picker-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 1.2rem;
+  line-height: 1;
+  padding: 0 2px;
+  transition: color var(--transition-fast);
+}
+
+.card-size-picker-close:hover {
+  color: var(--text-primary);
+}
+
+.card-size-picker-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.card-size-picker-btn {
+  flex: 0 0 auto;
+  min-width: 38px;
+  padding: 6px 8px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
+  text-align: center;
+}
+
+.card-size-picker-btn:hover {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
 }
 
 /* Toast Notification Styles */

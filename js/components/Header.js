@@ -247,7 +247,11 @@ const Header = {
       const removeBtn = target.closest(".cart-item-remove");
       if (removeBtn) {
         const key = removeBtn.dataset.key;
+        // Find and remove any bundle children before removing parent
+        const cart = getCart();
+        const bundleChildren = cart.filter(i => i.bundleParent === key);
         removeFromCart(key);
+        bundleChildren.forEach(child => removeFromCart(child.key));
       }
     });
   },

@@ -401,17 +401,35 @@ window.addBundleToCart = function() {
   const checkA = document.getElementById("bundle-check-a").checked;
   const checkB = document.getElementById("bundle-check-b").checked;
 
-  // 1. Add shoe
+  // 1. Add shoe (main product)
   addToCart(p.id, selectedSize, selectedColor, 1);
 
-  // 2. Add socks if checked
+  // Build the cart key for the main product (matches key format in state.js addToCart)
+  const mainKey = `${p.id}_${selectedSize}_${selectedColor.replace(/\s+/g, "-").toLowerCase()}`;
+
+  // 2. Add socks if checked — tagged as bundle child
   if (checkA) {
     addToCart(ACCESSORIES.socks.id, 9, "Orange", 1);
+    // Mark the socks cart entry as belonging to this bundle
+    const cart = getCart();
+    const socksKey = `${ACCESSORIES.socks.id}_9_orange`;
+    const socksItem = cart.find(i => i.key === socksKey);
+    if (socksItem) {
+      socksItem.bundleParent = mainKey;
+      saveCart(cart);
+    }
   }
 
-  // 3. Add cleaner kit if checked
+  // 3. Add cleaner kit if checked — tagged as bundle child
   if (checkB) {
     addToCart(ACCESSORIES.cleaner.id, 1, "Universal", 1);
+    const cart = getCart();
+    const cleanerKey = `${ACCESSORIES.cleaner.id}_1_universal`;
+    const cleanerItem = cart.find(i => i.key === cleanerKey);
+    if (cleanerItem) {
+      cleanerItem.bundleParent = mainKey;
+      saveCart(cart);
+    }
   }
 
   if (typeof window.openCartDrawer === "function") {

@@ -185,6 +185,55 @@ window.quickAddToCart = function(productId, size, color) {
   }
 };
 
+// Open inline size picker popup on the product card
+window.openSizePicker = function(productId, btnElement) {
+  const product = PRODUCTS.find(p => p.id === productId);
+  if (!product) return;
+
+  // Remove any existing size pickers
+  document.querySelectorAll(".card-size-picker").forEach(el => el.remove());
+
+  const picker = document.createElement("div");
+  picker.className = "card-size-picker";
+  picker.setAttribute("role", "dialog");
+  picker.setAttribute("aria-label", "Select a size");
+  picker.innerHTML = `
+    <div class="card-size-picker-header">
+      <span>Select Size</span>
+      <button class="card-size-picker-close" onclick="this.closest('.card-size-picker').remove()" aria-label="Close size picker">&times;</button>
+    </div>
+    <div class="card-size-picker-grid">
+      ${product.sizes.map(size => `
+        <button
+          class="card-size-picker-btn"
+          onclick="window.quickAddToCart('${product.id}', ${size}, '${product.colors[0].name}'); this.closest('.card-size-picker').remove();"
+          type="button"
+        >${size}</button>
+      `).join("")}
+    </div>
+  `;
+
+  // Position relative to the button's card
+  const card = btnElement.closest(".product-card");
+  if (card) {
+    card.style.position = "relative";
+    card.appendChild(picker);
+  } else {
+    document.body.appendChild(picker);
+  }
+
+  // Close on outside click
+  setTimeout(() => {
+    const handler = (e) => {
+      if (!picker.contains(e.target) && e.target !== btnElement) {
+        picker.remove();
+        document.removeEventListener("click", handler);
+      }
+    };
+    document.addEventListener("click", handler);
+  }, 0);
+};
+
 // Global Quick View Modal State & Event handlers
 let selectedQuickViewProduct = null;
 let selectedQuickViewSize = null;
@@ -333,6 +382,7 @@ window.renderProductCard = function(product, wishlist) {
   
   const primaryColor = product.colors[0];
   const prefix = getPathPrefix();
+  const isOutOfStock = product.availability === "Out of Stock";
 
   // Swatches HTML
   const swatchesHTML = product.colors.map(col => `
@@ -342,9 +392,42 @@ window.renderProductCard = function(product, wishlist) {
   // Sizes previews HTML
   const sizesHTML = `Sizes: ${product.sizes[0]}-${product.sizes[product.sizes.length - 1]}`;
 
+  // Cart button — disabled + out-of-stock badge if unavailable
+  const cartBtnHTML = isOutOfStock
+    ? `<button class="product-card-action-btn quickbuy-btn" disabled title="Out of Stock" aria-label="Out of stock" style="opacity:0.45;cursor:not-allowed;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="9" cy="21" r="1"></circle>
+          <circle cx="20" cy="21" r="1"></circle>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+        </svg>
+      </button>`
+    : `<button class="product-card-action-btn quickbuy-btn" onclick="openSizePicker('${product.id}', this)" title="Add to Cart" aria-label="Quick add ${product.name} to cart">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="9" cy="21" r="1"></circle>
+          <circle cx="20" cy="21" r="1"></circle>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+        </svg>
+      </button>`;
+
+  // Quick view button — disabled for OOS products
+  const quickViewBtnHTML = isOutOfStock
+    ? `<button class="product-card-action-btn quickview-btn" disabled title="Not available" aria-label="Product not available" style="opacity:0.45;cursor:not-allowed;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+          <circle cx="12" cy="12" r="3"></circle>
+        </svg>
+      </button>`
+    : `<button class="product-card-action-btn quickview-btn" onclick="openQuickView('${product.id}')" title="Quick View" aria-label="Quick view ${product.name}">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+          <circle cx="12" cy="12" r="3"></circle>
+        </svg>
+      </button>`;
+
   return `
     <article class="product-card">
       ${badgeHTML}
+      ${isOutOfStock ? '<span class="product-card-oos-badge">Out of Stock</span>' : ""}
       
       <!-- Wishlist toggle -->
       <button class="product-card-wishlist ${isWished}" onclick="handleWishlistToggle('${product.id}', this)" aria-label="Add ${product.name} to wishlist">
@@ -354,26 +437,15 @@ window.renderProductCard = function(product, wishlist) {
       </button>
 
       <!-- Product Image Wrapper -->
-      <div class="product-card-img-wrapper">
+      <div class="product-card-img-wrapper${isOutOfStock ? " oos" : ""}">
         <a href="${prefix}pages/product-detail.html?id=${product.id}">
           <img class="product-card-img" src="${prefix}${primaryColor.image}" alt="${product.name}">
         </a>
         
         <!-- Hover Overlay Action Icons -->
         <div class="product-card-overlay-actions">
-          <button class="product-card-action-btn quickview-btn" onclick="openQuickView('${product.id}')" title="Quick View" aria-label="Quick view ${product.name}">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-              <circle cx="12" cy="12" r="3"></circle>
-            </svg>
-          </button>
-          <button class="product-card-action-btn quickbuy-btn" onclick="quickAddToCart('${product.id}', '${product.sizes[0] || 9}', '${primaryColor.name}')" title="Add to Cart" aria-label="Quick add ${product.name} to cart">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="9" cy="21" r="1"></circle>
-              <circle cx="20" cy="21" r="1"></circle>
-              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-            </svg>
-          </button>
+          ${quickViewBtnHTML}
+          ${cartBtnHTML}
         </div>
       </div>
 
