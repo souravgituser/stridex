@@ -141,13 +141,33 @@
 
       <!-- Related Products grid row -->
       <section
-        style="margin-top: var(--space-16); border-top: 2px solid var(--border-color); padding-top: var(--space-10);"
+        style="margin-top: var(--space-16); border-top: 2px solid var(--border-color); padding-top: var(--space-10); position: relative;"
         aria-labelledby="related-heading">
-        <h2 id="related-heading"
-          style="font-family: var(--font-display); font-size: 1.5rem; text-transform: uppercase; margin-bottom: var(--space-6);">
-          Related Products</h2>
-        <div class="product-grid" id="detail-related-products-grid">
-          <!-- Injected dynamically by detail.js -->
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: var(--space-8);">
+          <div>
+            <h2 id="related-heading"
+              style="font-family: var(--font-display); font-size: 1.5rem; text-transform: uppercase; margin-bottom: 0;">
+              Related Products</h2>
+          </div>
+          <div style="display: flex; gap: var(--space-2); margin-bottom: 4px;">
+            <button class="action-btn" id="related-slider-prev" aria-label="Previous products" style="background-color: var(--bg-card); border: 1px solid var(--border-color);">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
+            </button>
+            <button class="action-btn" id="related-slider-next" aria-label="Next products" style="background-color: var(--bg-card); border: 1px solid var(--border-color);">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="slider-container-outer">
+          <div class="slider-track" id="detail-related-products-grid" role="region" aria-live="polite">
+            <!-- Injected dynamically by detail.js -->
+          </div>
         </div>
       </section>
 

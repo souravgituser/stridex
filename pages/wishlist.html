@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Wishlist | StrideX</title>
+  <meta name="description" content="View and manage your saved premium performance shoes and athletic sneakers in your StrideX wishlist.">
+  <link rel="icon" type="image/png" href="../images/shoes/apex_runner_blue.png">
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/pages/landing.css">
+  <link rel="stylesheet" href="../css/pages/products.css">
+</head>
+
+<body>
+
+  <!-- Dynamic Header Injection Placeholder -->
+  <div id="global-header"></div>
+
+  <!-- Page Main Content -->
+  <main id="main-content" style="margin-top: 80px; min-height: 80vh; padding-bottom: var(--space-20);">
+    <div class="container">
+      
+      <!-- Breadcrumb Navigation -->
+      <nav style="padding: var(--space-6) 0 var(--space-2); display: flex; gap: var(--space-2); align-items: center; font-size: 0.9rem; color: var(--text-secondary);" aria-label="Breadcrumb">
+        <a href="../index.html">Home</a> / <span style="color: var(--text-primary); font-weight: 600;">My Wishlist</span>
+      </nav>
+
+      <!-- Wishlist Title -->
+      <div style="margin-bottom: var(--space-10);">
+        <h1 style="font-family: var(--font-display); font-size: clamp(2rem, 3.5vw, 2.75rem); text-transform: uppercase; margin-bottom: var(--space-2);">My Wishlist</h1>
+        <p style="color: var(--text-secondary);">Manage and quick-add your favorite performance shoes.</p>
+      </div>
+
+      <!-- Wishlist Grid Container -->
+      <div class="product-grid" id="wishlist-products-grid" aria-live="polite">
+        <!-- Dynamically rendered cards by wishlist.js -->
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Dynamic Footer Injection Placeholder -->
+  <div id="global-footer"></div>
+
+  <!-- Core Scripts -->
+  <script src="../js/data.js?v=1.2"></script>
+  <script src="../js/state.js?v=1.2"></script>
+  <script src="../js/components/Header.js?v=1.2"></script>
+  <script src="../js/components/Footer.js?v=1.2"></script>
+  <script src="../js/app.js?v=1.2"></script>
+
+  <!-- Page Specific Logic Script -->
+  <script src="../js/pages/wishlist.js?v=1.2"></script>
+</body>
+
+</html>

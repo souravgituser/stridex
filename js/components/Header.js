@@ -44,12 +44,13 @@ const Header = {
                 </div>
                 
                 <div>
-                  <h3 class="mega-menu-col-title">Athlete Gear</h3>
+                  <h3 class="mega-menu-col-title">Support</h3>
                   <div class="mega-menu-list">
-                    <a href="#" class="mega-menu-link">Size Chart Guide</a>
-                    <a href="#" class="mega-menu-link">Shipping & Returns</a>
-                    <a href="#" class="mega-menu-link">Track Your Order</a>
-                    <a href="#" class="mega-menu-link">Carbon Plate Study</a>
+                    <a href="${prefix}pages/faq.html" class="mega-menu-link">FAQ & Help</a>
+                    <a href="${prefix}pages/shipping.html" class="mega-menu-link">Shipping & Delivery</a>
+                    <a href="${prefix}pages/returns.html" class="mega-menu-link">Returns & Exchanges</a>
+                    <a href="${prefix}pages/size-guide.html" class="mega-menu-link">Size Guide</a>
+                    <a href="${prefix}pages/contact.html" class="mega-menu-link">Contact Support</a>
                   </div>
                 </div>
                 
@@ -74,6 +75,13 @@ const Header = {
           </nav>
           
           <div class="nav-actions">
+            <a href="${prefix}pages/wishlist.html" class="action-btn" id="wishlist-toggle-btn" aria-label="View Wishlist" style="margin-right: 4px;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+              </svg>
+              <span class="badge" id="wishlist-badge-count" style="display: none;">0</span>
+            </a>
+            
             <button class="action-btn" id="cart-toggle-btn" aria-label="Open shopping cart" aria-haspopup="dialog">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="9" cy="21" r="1"></circle>
@@ -139,6 +147,7 @@ const Header = {
     document.getElementById("global-header").innerHTML = headerHTML;
     this.initEventListeners();
     this.updateCartUI();
+    this.updateWishlistUI();
   },
 
   initEventListeners() {
@@ -209,6 +218,9 @@ const Header = {
     window.addEventListener("stridex:cart-updated", () => {
       this.updateCartUI();
     });
+    window.addEventListener("stridex:wishlist-updated", () => {
+      this.updateWishlistUI();
+    });
 
     // Dynamic controls event delegation for cart items (qty adjustment / delete)
     const cartList = document.getElementById("cart-drawer-items-list");
@@ -238,6 +250,24 @@ const Header = {
         removeFromCart(key);
       }
     });
+  },
+
+  updateWishlistUI() {
+    try {
+      const wishlist = JSON.parse(localStorage.getItem("stridex_wishlist") || "[]");
+      const count = wishlist.length;
+      const badge = document.getElementById("wishlist-badge-count");
+      if (badge) {
+        if (count > 0) {
+          badge.textContent = count;
+          badge.style.display = "flex";
+        } else {
+          badge.style.display = "none";
+        }
+      }
+    } catch (e) {
+      console.error("Failed to load wishlist count", e);
+    }
   },
 
   updateCartUI() {

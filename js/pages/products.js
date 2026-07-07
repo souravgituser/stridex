@@ -83,17 +83,25 @@ function setupMobileFilters() {
   const trigger = document.getElementById("mobile-filter-trigger");
   const sidebar = document.getElementById("filter-sidebar");
   const closeBtn = document.getElementById("filter-close-btn");
+  const overlay = document.getElementById("filter-overlay");
 
   if (trigger && sidebar) {
     trigger.addEventListener("click", () => {
       sidebar.classList.add("active");
+      if (overlay) overlay.classList.add("active");
     });
   }
 
+  const closeFilters = () => {
+    if (sidebar) sidebar.classList.remove("active");
+    if (overlay) overlay.classList.remove("active");
+  };
+
   if (closeBtn && sidebar) {
-    closeBtn.addEventListener("click", () => {
-      sidebar.classList.remove("active");
-    });
+    closeBtn.addEventListener("click", closeFilters);
+  }
+  if (overlay) {
+    overlay.addEventListener("click", closeFilters);
   }
 }
 
@@ -647,6 +655,9 @@ window.handleWishlistToggle = function(productId, element) {
     element.classList.add("active");
   }
   localStorage.setItem("stridex_wishlist", JSON.stringify(wishlist));
+  
+  // Dispatch custom event to notify other components (like Header)
+  window.dispatchEvent(new CustomEvent("stridex:wishlist-updated"));
 };
 
 // Render active filter tags row

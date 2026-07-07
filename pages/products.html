@@ -29,22 +29,42 @@
         <a href="../index.html">Home</a> / <span style="color: var(--text-primary); font-weight: 600;">Shop All</span>
       </nav>
 
+      <!-- Sidebar Filter Overlay backdrop -->
+      <div class="filter-overlay" id="filter-overlay"></div>
+
       <!-- Catalog Page Layout Grid -->
       <div class="catalog-layout">
 
         <!-- Left Sidebar: Filters Panel -->
         <aside class="filter-sidebar" id="filter-sidebar" aria-label="Product Filters">
           <div class="filter-sidebar-header">
-            <h2 style="font-family: var(--font-display); font-size: 1.2rem; text-transform: uppercase; font-weight: 800; margin: 0;">Filters</h2>
-            <button class="action-btn" id="filter-clear-all" style="font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: var(--primary); background: none; border: none; cursor: pointer;">Clear All</button>
+            <h2
+              style="font-family: var(--font-display); font-size: 1.2rem; text-transform: uppercase; font-weight: 800; margin: 0;">
+              Filters</h2>
+            <div style="display: flex; gap: var(--space-2); align-items: center;">
+              <button class="action-btn" id="filter-clear-all"
+                style="font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: var(--primary); background: none; border: none; cursor: pointer;">Clear
+                All</button>
+              <button class="filter-close-btn" id="filter-close-btn" aria-label="Close filters"
+                style="background: none; border: none; cursor: pointer; display: none;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </button>
+            </div>
           </div>
 
           <!-- 1. Search Bar -->
           <div class="filter-group">
             <h3 class="filter-group-title">Search</h3>
             <div style="position: relative;">
-              <input type="text" class="form-control" id="catalog-search-input" placeholder="Search shoe name..." style="padding-right: var(--space-8); font-size: 0.875rem;">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: var(--text-muted);" aria-hidden="true">
+              <input type="text" class="form-control" id="catalog-search-input" placeholder="Search shoe name..."
+                style="padding-right: var(--space-8); font-size: 0.875rem;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: var(--text-muted);"
+                aria-hidden="true">
                 <circle cx="11" cy="11" r="8"></circle>
                 <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
               </svg>
@@ -54,8 +74,10 @@
           <!-- 2. Price Range Slider -->
           <div class="filter-group">
             <h3 class="filter-group-title">Price Range</h3>
-            <input type="range" class="price-slider" id="price-range-slider" min="100" max="300" value="300" aria-label="Max price range limit" style="width: 100%; accent-color: var(--primary); cursor: pointer;">
-            <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-secondary); margin-top: var(--space-1);">
+            <input type="range" class="price-slider" id="price-range-slider" min="100" max="300" value="300"
+              aria-label="Max price range limit" style="width: 100%; accent-color: var(--primary); cursor: pointer;">
+            <div
+              style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-secondary); margin-top: var(--space-1);">
               <span>Min: $100</span>
               <span id="price-slider-max-val" style="font-weight: 700; color: var(--primary);">Max: $300</span>
             </div>
@@ -117,7 +139,7 @@
         </aside>
 
         <!-- Right Content Area: Products catalog, sorting & grids -->
-        <section aria-labelledby="catalog-title">
+        <section aria-labelledby="catalog-title" style="width: 100%;">
           <h1 id="catalog-title" class="sr-only">StrideX Shoe Catalog</h1>
 
           <!-- Catalog Toolbar (Active count & Sorting dropdown) -->
@@ -126,8 +148,8 @@
 
             <div style="display: flex; gap: var(--space-2); align-items: center;">
               <!-- Mobile Filter Trigger -->
-              <button class="btn btn-outline btn-sm btn-ripple" id="mobile-filter-trigger"
-                style="display: none; padding: 0.5rem 1rem; align-items: center; gap: 4px;">
+              <button class="btn btn-outline btn-sm btn-ripple mobile-filter-trigger" id="mobile-filter-trigger"
+                style="padding: 0.5rem 1rem; align-items: center; gap: 4px;">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
                 </svg>

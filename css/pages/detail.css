@@ -675,3 +675,87 @@
     width: 100% !important;
   }
 }
+
+/* Sticky buy bar responsive layouts */
+.sticky-bar-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  padding: 0 var(--space-4);
+}
+
+.sticky-bar-info {
+  text-align: left;
+}
+
+.sticky-bar-price {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.25rem;
+  color: var(--text-primary);
+}
+
+.sticky-bar-btn {
+  padding: 0.65rem 1.5rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+@media (max-width: 576px) {
+  .sticky-bar-product {
+    display: none !important;
+  }
+  .sticky-bar-actions {
+    width: 100%;
+    justify-content: space-between;
+    gap: var(--space-4);
+  }
+  .sticky-bar-actions .sticky-bar-btn {
+    flex-grow: 1;
+    text-align: center;
+  }
+}
+
+/* Bundle Box Layout and Stacking */
+.bundle-box {
+  display: grid;
+  grid-template-columns: 1.8fr 1.2fr;
+  gap: var(--space-6);
+  align-items: center;
+}
+
+.bundle-items {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.bundle-summary {
+  text-align: center;
+  border-left: 1px solid var(--border-color);
+  padding-left: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+@media (max-width: 768px) {
+  .bundle-box {
+    grid-template-columns: 1fr !important;
+    gap: var(--space-6);
+  }
+  .bundle-summary {
+    border-left: none !important;
+    border-top: 1px solid var(--border-color);
+    padding-left: 0 !important;
+    padding-top: var(--space-6);
+  }
+}
+
+/* Detail page wishlist active button transitions */
+.detail-wishlist-btn:hover {
+  background-color: rgba(0, 0, 0, 0.03) !important;
+  border-color: var(--text-primary) !important;
+}

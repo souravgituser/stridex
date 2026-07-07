@@ -141,6 +141,12 @@ function renderProductDetails() {
         <button class="btn btn-primary" id="detail-add-btn" onclick="executeAddToCart()" style="flex: 1; padding: 0.95rem 0; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">
           Add To Cart
         </button>
+
+        <button class="btn btn-outline detail-wishlist-btn" onclick="toggleDetailWishlist()" aria-label="Add to Wishlist" style="padding: 0; display: flex; align-items: center; justify-content: center; width: 50px; height: 50px; border-radius: var(--radius-sm); border: 1px solid var(--border-color); cursor: pointer; transition: all var(--transition-fast); background-color: transparent;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="detail-wishlist-icon">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+          </svg>
+        </button>
       </div>
 
       <!-- Stock FOMO indicator -->
@@ -156,6 +162,9 @@ function renderProductDetails() {
 
   // Draw stock alert dot
   updateStockIndicator();
+
+  // Sync wishlist button UI
+  updateDetailWishlistUI();
 }
 
 // Gallery thumbnail and main display update
@@ -326,9 +335,9 @@ function initBundlePricing() {
   if (!container) return;
 
   container.innerHTML = `
-    <div class="bundle-box" style="border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: var(--space-6); background-color: var(--bg-card); display: grid; grid-template-columns: 1.8fr 1.2fr; gap: var(--space-6); align-items: center;">
+    <div class="bundle-box">
       <!-- Checklist items columns -->
-      <div style="display: flex; flex-direction: column; gap: var(--space-4);">
+      <div class="bundle-items">
         
         <!-- Main Shoe item -->
         <label class="filter-checkbox-label" style="font-weight: 700; display: flex; align-items: center; gap: 8px;">
@@ -360,7 +369,7 @@ function initBundlePricing() {
       </div>
 
       <!-- Sum column actions -->
-      <div style="text-align: center; border-left: 1px solid var(--border-color); padding-left: var(--space-6); display: flex; flex-direction: column; gap: var(--space-3);">
+      <div class="bundle-summary">
         <div style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); font-weight: 700;">Bundle Total</div>
         <div id="bundle-total-price" style="font-family: var(--font-display); font-size: 1.75rem; font-weight: 800; color: var(--text-primary);">$0.00</div>
         <button class="btn btn-primary" onclick="addBundleToCart()" style="width: 100%; padding: 0.85rem 0;">Add Bundle to Cart</button>
@@ -413,42 +422,62 @@ window.addBundleToCart = function() {
 // Render Related Footwear row
 function initRelatedProducts() {
   const container = document.getElementById("detail-related-products-grid");
+  const prevBtn = document.getElementById("related-slider-prev");
+  const nextBtn = document.getElementById("related-slider-next");
   if (!container) return;
 
-  // Select 3 products from database inside the same category, excluding active product
-  let related = PRODUCTS.filter(p => p.category === currentProduct.category && p.id !== currentProduct.id);
-  
-  if (related.length < 3) {
-    const extras = PRODUCTS.filter(p => p.id !== currentProduct.id && !related.includes(p));
-    related = [...related, ...extras].slice(0, 3);
-  } else {
-    related = related.slice(0, 3);
-  }
+  // Select up to 6 products from database (excluding active product)
+  let related = PRODUCTS.filter(p => p.id !== currentProduct.id);
+  let sameCategory = related.filter(p => p.category === currentProduct.category);
+  let otherCategory = related.filter(p => p.category !== currentProduct.category);
+  related = [...sameCategory, ...otherCategory].slice(0, 6);
 
   container.innerHTML = related.map(product => `
-    <article class="product-card">
-      <div class="product-card-img-wrapper" style="aspect-ratio: 1.3 / 1; padding: var(--space-4);">
-        <a href="product-detail.html?id=${product.id}">
-          <img class="product-card-img" src="${getPathPrefix()}${product.colors[0].image}" alt="${product.name}">
-        </a>
-      </div>
-      <div class="product-card-content" style="padding: var(--space-4);">
-        <span class="product-card-tag">${product.category}</span>
-        <h4 class="product-card-title" style="font-size: 0.95rem;">
-          <a href="product-detail.html?id=${product.id}">${product.name}</a>
-        </h4>
-        <div class="product-card-footer">
-          <div class="product-card-price" style="font-weight: 800; font-family: var(--font-display);">$${product.price.toFixed(2)}</div>
-          <div class="product-card-rating">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-            </svg>
-            <span>${product.rating}</span>
+    <div class="slider-card-wrapper">
+      <article class="product-card" style="height: 100%;">
+        <div class="product-card-img-wrapper" style="aspect-ratio: 1.3 / 1; padding: var(--space-4);">
+          <a href="product-detail.html?id=${product.id}">
+            <img class="product-card-img" src="${getPathPrefix()}${product.colors[0].image}" alt="${product.name}">
+          </a>
+        </div>
+        <div class="product-card-content" style="padding: var(--space-4);">
+          <span class="product-card-tag">${product.category}</span>
+          <h4 class="product-card-title" style="font-size: 0.95rem;">
+            <a href="product-detail.html?id=${product.id}">${product.name}</a>
+          </h4>
+          <div class="product-card-footer">
+            <div class="product-card-price" style="font-weight: 800; font-family: var(--font-display);">$${product.price.toFixed(2)}</div>
+            <div class="product-card-rating">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+              </svg>
+              <span>${product.rating}</span>
+            </div>
           </div>
         </div>
-      </div>
-    </article>
+      </article>
+    </div>
   `).join("");
+
+  if (prevBtn && nextBtn) {
+    prevBtn.addEventListener("click", () => {
+      const card = container.querySelector(".slider-card-wrapper");
+      const stepWidth = card ? card.offsetWidth + 24 : 324;
+      container.scrollBy({
+        left: -stepWidth,
+        behavior: "smooth"
+      });
+    });
+
+    nextBtn.addEventListener("click", () => {
+      const card = container.querySelector(".slider-card-wrapper");
+      const stepWidth = card ? card.offsetWidth + 24 : 324;
+      container.scrollBy({
+        left: stepWidth,
+        behavior: "smooth"
+      });
+    });
+  }
 }
 
 // Reviews, rating distribution and mock submissions
@@ -592,17 +621,17 @@ function syncStickyBar() {
   const activeColorway = p.colors.find(c => c.name === selectedColor) || p.colors[0];
 
   stickyBar.innerHTML = `
-    <div class="container" style="display: flex; align-items: center; justify-content: space-between; height: 100%; padding: 0 var(--space-4);">
-      <div style="display: flex; align-items: center; gap: var(--space-3);">
-        <img src="${getPathPrefix()}${activeColorway.image}" alt="${p.name}" style="height: 50px; width: 50px; object-fit: contain; background-color: var(--bg-main); border-radius: var(--radius-sm); padding: 2px;">
-        <div style="text-align: left;">
-          <h4 style="font-weight: 700; font-size: 0.9rem; line-height: 1.2;">${p.name}</h4>
-          <span style="font-size: 0.75rem; color: var(--text-secondary);">Color: ${selectedColor} | Size: ${selectedSize}</span>
+    <div class="container sticky-bar-container">
+      <div class="sticky-bar-product">
+        <img src="${getPathPrefix()}${activeColorway.image}" alt="${p.name}" class="sticky-bar-img">
+        <div class="sticky-bar-info">
+          <h4 class="sticky-bar-name">${p.name}</h4>
+          <span class="sticky-bar-meta">Color: ${selectedColor} | Size: ${selectedSize}</span>
         </div>
       </div>
-      <div style="display: flex; align-items: center; gap: var(--space-4);">
-        <span style="font-family: var(--font-display); font-weight: 800; font-size: 1.2rem;">$${p.price.toFixed(2)}</span>
-        <button class="btn btn-primary" onclick="executeAddToCart()" style="padding: 0.65rem 1.5rem; font-size: 0.8rem; font-weight: 700; text-transform: uppercase;">Add To Cart</button>
+      <div class="sticky-bar-actions">
+        <span class="sticky-bar-price">$${p.price.toFixed(2)}</span>
+        <button class="btn btn-primary sticky-bar-btn" onclick="executeAddToCart()">Add To Cart</button>
       </div>
     </div>
   `;
@@ -616,5 +645,55 @@ window.executeAddToCart = function() {
 
   if (typeof window.openCartDrawer === "function") {
     window.openCartDrawer();
+  }
+};
+
+// Wishlist handling for Product Detail page
+window.toggleDetailWishlist = function() {
+  let wishlist = JSON.parse(localStorage.getItem("stridex_wishlist") || "[]");
+  const idx = wishlist.indexOf(currentProduct.id);
+  const icon = document.getElementById("detail-wishlist-icon");
+  const btn = document.querySelector(".detail-wishlist-btn");
+  
+  if (idx > -1) {
+    wishlist.splice(idx, 1);
+    if (icon && btn) {
+      icon.setAttribute("fill", "none");
+      icon.setAttribute("stroke", "currentColor");
+      btn.style.color = "var(--text-primary)";
+      btn.style.borderColor = "var(--border-color)";
+    }
+  } else {
+    wishlist.push(currentProduct.id);
+    if (icon && btn) {
+      icon.setAttribute("fill", "var(--secondary)");
+      icon.setAttribute("stroke", "var(--secondary)");
+      btn.style.color = "var(--secondary)";
+      btn.style.borderColor = "var(--secondary)";
+    }
+  }
+  
+  localStorage.setItem("stridex_wishlist", JSON.stringify(wishlist));
+  window.dispatchEvent(new CustomEvent("stridex:wishlist-updated"));
+};
+
+window.updateDetailWishlistUI = function() {
+  const wishlist = JSON.parse(localStorage.getItem("stridex_wishlist") || "[]");
+  const isWished = wishlist.includes(currentProduct.id);
+  const icon = document.getElementById("detail-wishlist-icon");
+  const btn = document.querySelector(".detail-wishlist-btn");
+  
+  if (icon && btn) {
+    if (isWished) {
+      icon.setAttribute("fill", "var(--secondary)");
+      icon.setAttribute("stroke", "var(--secondary)");
+      btn.style.color = "var(--secondary)";
+      btn.style.borderColor = "var(--secondary)";
+    } else {
+      icon.setAttribute("fill", "none");
+      icon.setAttribute("stroke", "currentColor");
+      btn.style.color = "var(--text-primary)";
+      btn.style.borderColor = "var(--border-color)";
+    }
   }
 };
